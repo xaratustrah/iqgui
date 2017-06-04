@@ -13,8 +13,7 @@ from PyQt5.QtCore import Qt, QCoreApplication
 import numpy as np
 from mainwindow_ui import Ui_MainWindow
 from aboutdialog_ui import Ui_AbooutDialog
-from iqbase import IQBase
-from iqtools import get_iq_object
+from iqtools import *
 # force Matplotlib to use PyQt5 backend, call before importing pyplot and backends!
 from matplotlib import use
 
