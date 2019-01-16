@@ -46,9 +46,12 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.method = None
 
         # fill combo box with names
-        self.comboBox_method.addItems(['fft-2D', 'welch-2D', 'mtm-2D', 'tfr-2D', 'fft-1D', 'welch-1D'])
-        self.comboBox_window.addItems(['rectangular', 'bartlett', 'blackman', 'hamming', 'hanning'])
-        self.comboBox_color.addItems(['Viridis', 'Jet', 'Blues', 'Cool', 'Copper', 'Hot', 'Gray'])
+        self.comboBox_method.addItems(
+            ['fft-2D', 'welch-2D', 'mtm-2D', 'fft-1D', 'welch-1D'])
+        self.comboBox_window.addItems(
+            ['rectangular', 'bartlett', 'blackman', 'hamming', 'hanning'])
+        self.comboBox_color.addItems(
+            ['Viridis', 'Jet', 'Blues', 'Cool', 'Copper', 'Hot', 'Gray'])
 
         self.colormesh_xx = None
         self.colormesh_yy = None
@@ -76,19 +79,25 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         :return:
         """
         self.pushButton_choose_file.clicked.connect(self.open_file_dialog)
-        self.pushButton_replot.clicked.connect(self.on_pushButton_replot_clicked)
+        self.pushButton_replot.clicked.connect(
+            self.on_pushButton_replot_clicked)
 
         self.actionChoose_file.triggered.connect(self.open_file_dialog)
         self.actionReplot.triggered.connect(self.on_pushButton_replot_clicked)
         self.actionAbout.triggered.connect(self.showAboutDialog)
         self.actionQuit.triggered.connect(QCoreApplication.instance().quit)
 
-        self.spinBox_lframes.valueChanged.connect(self.on_spinBox_lframe_changed)
-        self.spinBox_nframes.valueChanged.connect(self.on_spinBox_nframe_changed)
-        self.spinBox_sframes.valueChanged.connect(self.on_spinBox_sframe_changed)
-        self.verticalSlider_sframes.valueChanged.connect(self.on_spinBox_sframe_changed)
+        self.spinBox_lframes.valueChanged.connect(
+            self.on_spinBox_lframe_changed)
+        self.spinBox_nframes.valueChanged.connect(
+            self.on_spinBox_nframe_changed)
+        self.spinBox_sframes.valueChanged.connect(
+            self.on_spinBox_sframe_changed)
+        self.verticalSlider_sframes.valueChanged.connect(
+            self.on_spinBox_sframe_changed)
 
-        self.comboBox_color.currentIndexChanged.connect(self.on_comboBox_color_currentIndexChanged)
+        self.comboBox_color.currentIndexChanged.connect(
+            self.on_comboBox_color_currentIndexChanged)
 
     def check_combo_boxes(self):
         if self.comboBox_color.currentText() == 'Viridis':
@@ -115,8 +124,6 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         elif self.comboBox_method.currentText() == 'mtm-2D':
             self.method = 'mtm-2D'
             self.iq_data.method = 'mtm'
-        elif self.comboBox_method.currentText() == 'tfr-2D':
-            self.method = 'tfr-2D'
         elif self.comboBox_method.currentText() == 'welch-1D':
             self.method = 'welch-1D'
         else:
@@ -158,12 +165,15 @@ class mainWindow(QMainWindow, Ui_MainWindow):
                     self.iq_data.nframes,
                     self.iq_data.lframes)
 
-            delta_f = np.abs(np.abs(self.colormesh_xx[0, 1]) - np.abs(self.colormesh_xx[0, 0]))
-            delta_t = np.abs(np.abs(self.colormesh_yy[1, 0]) - np.abs(self.colormesh_yy[0, 0]))
+            delta_f = np.abs(
+                np.abs(self.colormesh_xx[0, 1]) - np.abs(self.colormesh_xx[0, 0]))
+            delta_t = np.abs(
+                np.abs(self.colormesh_yy[1, 0]) - np.abs(self.colormesh_yy[0, 0]))
 
             # Apply threshold
             self.colormesh_zz_dbm = IQBase.get_dbm(self.colormesh_zz)
-            self.colormesh_zz_dbm[self.colormesh_zz_dbm < self.verticalSlider_thld.value()] = 0
+            self.colormesh_zz_dbm[self.colormesh_zz_dbm <
+                                  self.verticalSlider_thld.value()] = 0
 
             # find the correct object in the matplotlib widget and plot on it
             self.mplWidget.canvas.ax.clear()
@@ -174,25 +184,26 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             # TODO: Colorbar doesn't show here.
 
             # Change frequency axis formatting
-            self.mplWidget.canvas.ax.xaxis.set_major_formatter(FormatStrFormatter('%.0e'))
+            self.mplWidget.canvas.ax.xaxis.set_major_formatter(
+                FormatStrFormatter('%.0e'))
             self.mplWidget.canvas.ax.set_xlabel(
                 "Delta f [Hz] @ {:.2e} [Hz] (resolution = {:.2e} [Hz])".format(self.iq_data.center, delta_f))
-            self.mplWidget.canvas.ax.set_ylabel('Time [sec] (resolution = {:.2e} [s])'.format(delta_t))
-            self.mplWidget.canvas.ax.set_title('Spectrogram (File: {})'.format(self.iq_data.file_basename))
-
-        elif self.method == 'tfr-2D':
-            self.show_message('Waiting for carlkl@GitHUB to port libtfr to Python 3 :-)')
-            return
+            self.mplWidget.canvas.ax.set_ylabel(
+                'Time [sec] (resolution = {:.2e} [s])'.format(delta_t))
+            self.mplWidget.canvas.ax.set_title(
+                'Spectrogram (File: {})'.format(self.iq_data.file_basename))
 
         elif self.method == 'welch-1D':
             ff, pp = self.iq_data.get_pwelch()
             delta_f = ff[1] - ff[0]
             self.mplWidget.canvas.ax.clear()
             self.mplWidget.canvas.ax.plot(ff, IQBase.get_dbm(pp))
-            self.mplWidget.canvas.ax.set_title('Spectrum (File: {})'.format(self.iq_data.file_basename))
+            self.mplWidget.canvas.ax.set_title(
+                'Spectrum (File: {})'.format(self.iq_data.file_basename))
             self.mplWidget.canvas.ax.set_xlabel(
                 "Delta f [Hz] @ {:.2e} [Hz] (resolution = {:.2e} [Hz])".format(self.iq_data.center, delta_f))
-            self.mplWidget.canvas.ax.set_ylabel("Power Spectral Density [dBm/Hz]")
+            self.mplWidget.canvas.ax.set_ylabel(
+                "Power Spectral Density [dBm/Hz]")
             self.mplWidget.canvas.ax.grid(True)
 
         else:  # this means self.method == 'fft-1D'
@@ -200,10 +211,12 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             delta_f = ff[1] - ff[0]
             self.mplWidget.canvas.ax.clear()
             self.mplWidget.canvas.ax.plot(ff, IQBase.get_dbm(pp))
-            self.mplWidget.canvas.ax.set_title('Spectrum (File: {})'.format(self.iq_data.file_basename))
+            self.mplWidget.canvas.ax.set_title(
+                'Spectrum (File: {})'.format(self.iq_data.file_basename))
             self.mplWidget.canvas.ax.set_xlabel(
                 "Delta f [Hz] @ {:.2e} [Hz] (resolution = {:.2e} [Hz])".format(self.iq_data.center, delta_f))
-            self.mplWidget.canvas.ax.set_ylabel("Power Spectral Density [dBm/Hz]")
+            self.mplWidget.canvas.ax.set_ylabel(
+                "Power Spectral Density [dBm/Hz]")
             self.mplWidget.canvas.ax.grid(True)
 
         # finish up plot
@@ -272,7 +285,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
                 return
 
         if not get_iq_object(file_name, header_file_name):
-            self.show_message('Datafile needs an additional header file which was not specified. Nothing to do.')
+            self.show_message(
+                'Datafile needs an additional header file which was not specified. Nothing to do.')
             return
 
         # Now all the above has succeeded, we can finally create the object.
@@ -333,7 +347,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.verticalSlider_sframes.setMinimum(1)
         self.verticalSlider_sframes.setTickInterval(int(ns / lf / 10))
 
-        self.lcdNumber_sframes.display(st * self.spinBox_lframes.value() / self.iq_data.fs)
+        self.lcdNumber_sframes.display(
+            st * self.spinBox_lframes.value() / self.iq_data.fs)
 
     def on_comboBox_color_currentIndexChanged(self):
         """
@@ -360,6 +375,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
                 event.accept()
             if event.key() == Qt.Key_Up:
                 event.accept()
-                self.verticalSlider_sframes.setTickPosition(self.verticalSlider_sframes.tickPosition() + 10)
+                self.verticalSlider_sframes.setTickPosition(
+                    self.verticalSlider_sframes.tickPosition() + 10)
         else:
             event.ignore()
