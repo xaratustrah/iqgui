@@ -21,6 +21,7 @@ use("Qt5Agg")
 import matplotlib.cm as cm
 from matplotlib.ticker import FormatStrFormatter
 from matplotlib.pyplot import colorbar
+from matplotlib.colors import Normalize
 from version import __version__
 
 
@@ -57,6 +58,15 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.colormesh_yy = None
         self.colormesh_zz = None
         self.colormesh_zz_dbm = None
+
+        # self.verticalSlider_thld_min.setMinimum(0)
+        # self.verticalSlider_thld_min.setMaximum(1e6)
+        # self.verticalSlider_thld_max.setMinimum(0)
+        # self.verticalSlider_thld_max.setMaximum(1e6)
+        # self.verticalSlider_thld_min.setValue(0)
+        # self.verticalSlider_thld_max.setValue(1e6)
+        # self.lcdNumber_thld_max.display(0)
+        # self.lcdNumber_thld_min.display(1e6)
 
         # UI related stuff
         self.connect_signals()
@@ -153,10 +163,11 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.textBrowser.clear()
         self.textBrowser.append(str(self.iq_data))
 
-        info_txt = 'nframes = {}, lframes = {}, sframes = {}, method = {}'.format(self.iq_data.nframes,
-                                                                                  self.iq_data.lframes,
-                                                                                  self.iq_data.sframes,
-                                                                                  self.method)
+        info_txt = ""
+        # info_txt = 'nframes = {}, lframes = {}, sframes = {}, method = {}'.format(self.iq_data.nframes,
+        #                                                                           self.iq_data.lframes,
+        #                                                                           self.iq_data.sframes,
+        #                                                                           self.method)
 
         if self.method in ['mtm-2D', 'welch-2D', 'fft-2D']:
             # if you only like to change the color, don't calculate the spectrum again, just replot
@@ -171,16 +182,21 @@ class mainWindow(QMainWindow, Ui_MainWindow):
                 np.abs(self.colormesh_yy[1, 0]) - np.abs(self.colormesh_yy[0, 0]))
 
             # Apply threshold
-            self.colormesh_zz_dbm = IQBase.get_dbm(self.colormesh_zz)
-            self.colormesh_zz_dbm[self.colormesh_zz_dbm <
-                                  self.verticalSlider_thld.value()] = 0
+
+            zz = self.colormesh_zz / np.max(self.colormesh_zz) * 1e6
+            zz_min, zz_max = int(np.min(zz)), int(np.max(zz))
+
+            mynorm = Normalize(vmin=self.verticalSlider_thld_min.value(
+            ), vmax=self.verticalSlider_thld_max.value())
+            print(self.verticalSlider_thld_min.value(),
+                  self.verticalSlider_thld_max.value())
 
             # find the correct object in the matplotlib widget and plot on it
             self.mplWidget.canvas.ax.clear()
-            sp = self.mplWidget.canvas.ax.pcolormesh(self.colormesh_xx, self.colormesh_yy, self.colormesh_zz_dbm,
-                                                     cmap=self.cmap)
+            sp = self.mplWidget.canvas.ax.pcolormesh(self.colormesh_xx, self.colormesh_yy, zz,
+                                                     cmap=self.cmap, norm=mynorm)
             cb = colorbar(sp)
-            cb.set_label('Power Spectral Density [dBm/Hz]')
+            cb.set_label('Power Spectral Density [W/Hz]')
             # TODO: Colorbar doesn't show here.
 
             # Change frequency axis formatting
@@ -190,14 +206,15 @@ class mainWindow(QMainWindow, Ui_MainWindow):
                 "Delta f [Hz] @ {:.2e} [Hz] (resolution = {:.2e} [Hz])".format(self.iq_data.center, delta_f))
             self.mplWidget.canvas.ax.set_ylabel(
                 'Time [sec] (resolution = {:.2e} [s])'.format(delta_t))
-            self.mplWidget.canvas.ax.set_title(
-                'Spectrogram (File: {})'.format(self.iq_data.file_basename))
+            self.mplWidget.canvas.ax.set_title("")
+            # self.mplWidget.canvas.ax.set_title(
+            #    'Spectrogram (File: {})'.format(self.iq_data.file_basename))
 
         elif self.method == 'welch-1D':
             ff, pp = self.iq_data.get_pwelch()
             delta_f = ff[1] - ff[0]
             self.mplWidget.canvas.ax.clear()
-            self.mplWidget.canvas.ax.plot(ff, IQBase.get_dbm(pp))
+            self.mplWidget.canvas.ax.plot(ff, pp)
             self.mplWidget.canvas.ax.set_title(
                 'Spectrum (File: {})'.format(self.iq_data.file_basename))
             self.mplWidget.canvas.ax.set_xlabel(
@@ -210,7 +227,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             ff, pp, _ = self.iq_data.get_fft()
             delta_f = ff[1] - ff[0]
             self.mplWidget.canvas.ax.clear()
-            self.mplWidget.canvas.ax.plot(ff, IQBase.get_dbm(pp))
+            self.mplWidget.canvas.ax.plot(ff, pp)
             self.mplWidget.canvas.ax.set_title(
                 'Spectrum (File: {})'.format(self.iq_data.file_basename))
             self.mplWidget.canvas.ax.set_xlabel(
@@ -304,7 +321,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.textBrowser.append(str(self.iq_data))
 
         # set some initial values for the spin boxes
-        self.spinBox_nframes.setValue(10)
+        self.spinBox_nframes.setValue(200)
         self.spinBox_lframes.setValue(1024)
         self.spinBox_sframes.setValue(1)
         # finally do an initial limit checking
@@ -336,7 +353,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         if not self.loaded_file_type:
             return
         ns = self.iq_data.nsamples_total
-        nf = self.spinBox_nframes.value()
+        nf = self.spinBox_
+        .value()
         lf = self.spinBox_lframes.value()
         st = self.spinBox_sframes.value()
 
