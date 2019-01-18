@@ -33,10 +33,10 @@
          <string>Navigation</string>
         </property>
         <layout class="QGridLayout" name="gridLayout">
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_2">
+         <item row="10" column="0">
+          <widget class="QLabel" name="label_6">
            <property name="text">
-            <string>No. of frames:</string>
+            <string>Window:</string>
            </property>
           </widget>
          </item>
@@ -53,9 +53,6 @@
            </property>
           </widget>
          </item>
-         <item row="11" column="1">
-          <widget class="QComboBox" name="comboBox_color"/>
-         </item>
          <item row="6" column="0">
           <widget class="QLabel" name="label_4">
            <property name="text">
@@ -63,17 +60,20 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_20">
-           <property name="text">
-            <string>Points per frames:</string>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="spinBox_lframes">
+           <property name="maximum">
+            <number>10000</number>
+           </property>
+           <property name="value">
+            <number>1024</number>
            </property>
           </widget>
          </item>
-         <item row="9" column="0">
-          <widget class="QLabel" name="label_6">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>Window:</string>
+            <string>No. of frames:</string>
            </property>
           </widget>
          </item>
@@ -87,8 +87,15 @@
            </property>
           </widget>
          </item>
-         <item row="9" column="1">
-          <widget class="QComboBox" name="comboBox_window"/>
+         <item row="12" column="1">
+          <widget class="QComboBox" name="comboBox_color"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Contrast max.:</string>
+           </property>
+          </widget>
          </item>
          <item row="6" column="1">
           <widget class="QLCDNumber" name="lcdNumber_thld_min">
@@ -106,25 +113,8 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Starting time [s]:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="1">
-          <widget class="QComboBox" name="comboBox_method"/>
-         </item>
-         <item row="0" column="1">
-          <widget class="QSpinBox" name="spinBox_lframes">
-           <property name="maximum">
-            <number>10000</number>
-           </property>
-           <property name="value">
-            <number>1024</number>
-           </property>
-          </widget>
+         <item row="10" column="1">
+          <widget class="QComboBox" name="comboBox_window"/>
          </item>
          <item row="3" column="1">
           <widget class="QLCDNumber" name="lcdNumber_sframes">
@@ -136,24 +126,17 @@
            </property>
           </widget>
          </item>
-         <item row="11" column="0">
+         <item row="12" column="0">
           <widget class="QLabel" name="label_21">
            <property name="text">
             <string>Color map:</string>
            </property>
           </widget>
          </item>
-         <item row="8" column="0">
-          <widget class="QLabel" name="label_5">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_20">
            <property name="text">
-            <string>Method:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>Starting frame:</string>
+            <string>Points per frames:</string>
            </property>
           </widget>
          </item>
@@ -176,10 +159,41 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_7">
+         <item row="3" column="0">
+          <widget class="QLabel" name="label">
            <property name="text">
-            <string>Contrast max.:</string>
+            <string>Starting time [s]:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Method:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Starting frame:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QComboBox" name="comboBox_method"/>
+         </item>
+         <item row="8" column="0">
+          <widget class="QCheckBox" name="checkBox_mask">
+           <property name="text">
+            <string>Mask min.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QCheckBox" name="checkBox_log">
+           <property name="text">
+            <string>Log</string>
            </property>
           </widget>
          </item>
@@ -265,7 +279,7 @@
           <bool>false</bool>
          </property>
          <property name="tickPosition">
-          <enum>QSlider::TicksBelow</enum>
+          <enum>QSlider::NoTicks</enum>
          </property>
          <property name="tickInterval">
           <number>1</number>

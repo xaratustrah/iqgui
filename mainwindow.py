@@ -188,12 +188,18 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
             mynorm = Normalize(vmin=self.verticalSlider_thld_min.value(
             ), vmax=self.verticalSlider_thld_max.value())
-            print(self.verticalSlider_thld_min.value(),
-                  self.verticalSlider_thld_max.value())
+
+            # mask arrays for transparency in pcolormesh
+            # check mask checkBox_log
+            if self.checkBox_mask.isChecked():
+                zzma = np.ma.masked_less_equal(
+                    zz, self.verticalSlider_thld_min.value())
+            else:
+                zzma = zz
 
             # find the correct object in the matplotlib widget and plot on it
             self.mplWidget.canvas.ax.clear()
-            sp = self.mplWidget.canvas.ax.pcolormesh(self.colormesh_xx, self.colormesh_yy, zz,
+            sp = self.mplWidget.canvas.ax.pcolormesh(self.colormesh_xx, self.colormesh_yy, zzma,
                                                      cmap=self.cmap, norm=mynorm)
             cb = colorbar(sp)
             cb.set_label('Power Spectral Density [W/Hz]')
@@ -353,8 +359,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         if not self.loaded_file_type:
             return
         ns = self.iq_data.nsamples_total
-        nf = self.spinBox_
-        .value()
+        nf = self.spinBox_nframes.value()
         lf = self.spinBox_lframes.value()
         st = self.spinBox_sframes.value()
 
