@@ -189,6 +189,10 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             mynorm = Normalize(vmin=self.verticalSlider_thld_min.value(
             ), vmax=self.verticalSlider_thld_max.value())
 
+            # log version
+            if self.checkBox_log.isChecked():
+                zz = IQBase.get_dbm(zz)
+
             # mask arrays for transparency in pcolormesh
             # check mask checkBox_log
             if self.checkBox_mask.isChecked():
@@ -201,9 +205,9 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             self.mplWidget.canvas.ax.clear()
             sp = self.mplWidget.canvas.ax.pcolormesh(self.colormesh_xx, self.colormesh_yy, zzma,
                                                      cmap=self.cmap, norm=mynorm)
-            cb = colorbar(sp)
-            cb.set_label('Power Spectral Density [W/Hz]')
-            # TODO: Colorbar doesn't show here.
+            # color bar is not needed now.
+            # cb = colorbar(sp)
+            # cb.set_label('Power Spectral Density [W/Hz]')
 
             # Change frequency axis formatting
             self.mplWidget.canvas.ax.xaxis.set_major_formatter(
@@ -219,27 +223,45 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         elif self.method == 'welch-1D':
             ff, pp = self.iq_data.get_pwelch()
             delta_f = ff[1] - ff[0]
+
             self.mplWidget.canvas.ax.clear()
+            # log version
+            if self.checkBox_log.isChecked():
+                pp = IQBase.get_dbm(pp)
+
             self.mplWidget.canvas.ax.plot(ff, pp)
+
             self.mplWidget.canvas.ax.set_title(
                 'Spectrum (File: {})'.format(self.iq_data.file_basename))
             self.mplWidget.canvas.ax.set_xlabel(
                 "Delta f [Hz] @ {:.2e} [Hz] (resolution = {:.2e} [Hz])".format(self.iq_data.center, delta_f))
-            self.mplWidget.canvas.ax.set_ylabel(
-                "Power Spectral Density [dBm/Hz]")
+            if self.checkBox_log.isChecked():
+                self.mplWidget.canvas.ax.set_ylabel(
+                    "Power Spectral Density [dBm/Hz]")
+            else:
+                self.mplWidget.canvas.ax.set_ylabel(
+                    "Power Spectral Density [W/Hz]")
+
             self.mplWidget.canvas.ax.grid(True)
 
         else:  # this means self.method == 'fft-1D'
             ff, pp, _ = self.iq_data.get_fft()
             delta_f = ff[1] - ff[0]
             self.mplWidget.canvas.ax.clear()
+            # log version
+            if self.checkBox_log.isChecked():
+                pp = IQBase.get_dbm(pp)
             self.mplWidget.canvas.ax.plot(ff, pp)
             self.mplWidget.canvas.ax.set_title(
                 'Spectrum (File: {})'.format(self.iq_data.file_basename))
             self.mplWidget.canvas.ax.set_xlabel(
                 "Delta f [Hz] @ {:.2e} [Hz] (resolution = {:.2e} [Hz])".format(self.iq_data.center, delta_f))
-            self.mplWidget.canvas.ax.set_ylabel(
-                "Power Spectral Density [dBm/Hz]")
+            if self.checkBox_log.isChecked():
+                self.mplWidget.canvas.ax.set_ylabel(
+                    "Power Spectral Density [dBm/Hz]")
+            else:
+                self.mplWidget.canvas.ax.set_ylabel(
+                    "Power Spectral Density [W/Hz]")
             self.mplWidget.canvas.ax.grid(True)
 
         # finish up plot
