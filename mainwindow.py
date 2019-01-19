@@ -163,11 +163,13 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.textBrowser.clear()
         self.textBrowser.append(str(self.iq_data))
 
-        info_txt = ""
-        # info_txt = 'nframes = {}, lframes = {}, sframes = {}, method = {}'.format(self.iq_data.nframes,
-        #                                                                           self.iq_data.lframes,
-        #                                                                           self.iq_data.sframes,
-        #                                                                           self.method)
+        if self.checkBox_info.isChecked():
+            info_txt = 'nframes = {}, lframes = {}, sframes = {}, method = {}'.format(self.iq_data.nframes,
+                                                                                      self.iq_data.lframes,
+                                                                                      self.iq_data.sframes,
+                                                                                      self.method)
+        else:
+            info_txt = ""
 
         if self.method in ['mtm-2D', 'welch-2D', 'fft-2D']:
             # if you only like to change the color, don't calculate the spectrum again, just replot
@@ -217,8 +219,9 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             self.mplWidget.canvas.ax.set_ylabel(
                 'Time [sec] (resolution = {:.2e} [s])'.format(delta_t))
             self.mplWidget.canvas.ax.set_title("")
-            # self.mplWidget.canvas.ax.set_title(
-            #    'Spectrogram (File: {})'.format(self.iq_data.file_basename))
+            if self.checkBox_info.isChecked():
+                self.mplWidget.canvas.ax.set_title(
+                    'Spectrogram (File: {})'.format(self.iq_data.file_basename))
 
         elif self.method == 'welch-1D':
             ff, pp = self.iq_data.get_pwelch()
@@ -231,8 +234,9 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
             self.mplWidget.canvas.ax.plot(ff, pp)
 
-            self.mplWidget.canvas.ax.set_title(
-                'Spectrum (File: {})'.format(self.iq_data.file_basename))
+            if self.checkBox_info.isChecked():
+                self.mplWidget.canvas.ax.set_title(
+                    'Spectrum (File: {})'.format(self.iq_data.file_basename))
             self.mplWidget.canvas.ax.set_xlabel(
                 "Delta f [Hz] @ {:.2e} [Hz] (resolution = {:.2e} [Hz])".format(self.iq_data.center, delta_f))
             if self.checkBox_log.isChecked():
@@ -252,8 +256,9 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             if self.checkBox_log.isChecked():
                 pp = IQBase.get_dbm(pp)
             self.mplWidget.canvas.ax.plot(ff, pp)
-            self.mplWidget.canvas.ax.set_title(
-                'Spectrum (File: {})'.format(self.iq_data.file_basename))
+            if self.checkBox_info.isChecked():
+                self.mplWidget.canvas.ax.set_title(
+                    'Spectrum (File: {})'.format(self.iq_data.file_basename))
             self.mplWidget.canvas.ax.set_xlabel(
                 "Delta f [Hz] @ {:.2e} [Hz] (resolution = {:.2e} [Hz])".format(self.iq_data.center, delta_f))
             if self.checkBox_log.isChecked():
