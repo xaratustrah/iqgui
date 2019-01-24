@@ -138,7 +138,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         self.iq_data.window = self.comboBox_window.currentText()
 
-    def plot(self, replot=True):
+    def plot(self):
         """
         Main plot function
         :return:
@@ -170,10 +170,9 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         if self.method in ['mtm-2D', 'welch-2D', 'fft-2D']:
             # if you only like to change the color, don't calculate the spectrum again, just replot
-            if replot:
-                self.colormesh_xx, self.colormesh_yy, self.colormesh_zz = self.iq_data.get_spectrogram(
-                    self.iq_data.nframes,
-                    self.iq_data.lframes)
+            self.colormesh_xx, self.colormesh_yy, self.colormesh_zz = self.iq_data.get_spectrogram(
+                self.iq_data.nframes,
+                self.iq_data.lframes)
 
             delta_f = np.abs(
                 np.abs(self.colormesh_xx[0, 1]) - np.abs(self.colormesh_xx[0, 0]))
@@ -407,13 +406,10 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         This is the event listener for the combo box change
         :return:
         """
-        if not self.loaded_file_type:
-            self.show_message('Please choose a valid file first.')
-            return
-        self.plot(replot=False)
+        pass
 
     def on_pushButton_replot_clicked(self):
-        self.plot(replot=True)
+        self.plot()
 
     def keyPressEvent(self, event):
         """
@@ -423,7 +419,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         if type(event) == QKeyEvent:
             # here accept the event and do something
             if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:  # code enter key
-                self.plot(replot=True)
+                self.plot()
                 event.accept()
             if event.key() == Qt.Key_Up:
                 event.accept()
