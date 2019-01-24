@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QDialog
 from PyQt5.QtGui import QKeyEvent
 from PyQt5.QtCore import Qt, QCoreApplication
 import numpy as np
+import json
 from mainwindow_ui import Ui_MainWindow
 from aboutdialog_ui import Ui_AbooutDialog
 from iqtools import *
@@ -82,6 +83,14 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_choose_file.clicked.connect(self.open_file_dialog)
         self.pushButton_replot.clicked.connect(
             self.on_pushButton_replot_clicked)
+
+        # automatically connected by pyuic: https://stackoverflow.com/a/22875443
+        self.pushButton_load_conf.clicked.connect(
+            self.on_pushButton_load_conf_clicked_once)
+
+        # automatically connected by pyuic: https://stackoverflow.com/a/22875443
+        self.pushButton_save_conf.clicked.connect(
+            self.on_pushButton_save_conf_clicked_once)
 
         self.actionChoose_file.triggered.connect(self.open_file_dialog)
         self.actionReplot.triggered.connect(self.on_pushButton_replot_clicked)
@@ -410,6 +419,42 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
     def on_pushButton_replot_clicked(self):
         self.plot()
+
+    def on_pushButton_save_conf_clicked_once(self):
+        if not self.loaded_file_type:
+            return
+
+        file_name, _ = QFileDialog.getSaveFileName(self, "Choose files...", self.iq_data.file_basename,
+                                                   "Config Files (*.json)")
+
+        if not file_name:
+            self.show_message('User cancelled the dialog box.')
+            return
+
+        data = {'lframes': self.spinBox_lframes.value(
+        ), 'nframes': self.spinBox_nframes.value(), 'sframes': self.spinBox_sframes.value(), 'thld_min': self.verticalSlider_thld_min.value(), 'thld_max': self.verticalSlider_thld_max.value()}
+        with open(file_name, 'w') as outfile:
+            json.dump(data, outfile)
+
+    def on_pushButton_load_conf_clicked_once(self):
+        file_name, _ = QFileDialog.getOpenFileName(self, "Choose files...", '',
+                                                   "Config Files (*.json)")
+
+        if not file_name:
+            self.show_message('User cancelled the dialog box.')
+            return
+
+        with open(file_name, "r") as read_file:
+            data = json.load(read_file)
+        try:
+            self.spinBox_lframes.setValue(data['lframes'])
+            self.spinBox_nframes.setValue(data['nframes'])
+            self.spinBox_sframes.setValue(data['sframes'])
+            self.verticalSlider_thld_min.setValue(data['thld_min'])
+            self.verticalSlider_thld_max.setValue(data['thld_max'])
+        except KeyError as error:
+            self.show_message('The config file seems to be damaged.')
+            return
 
     def keyPressEvent(self, event):
         """
