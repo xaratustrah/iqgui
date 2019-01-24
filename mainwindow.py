@@ -59,15 +59,6 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.colormesh_zz = None
         self.colormesh_zz_dbm = None
 
-        # self.verticalSlider_thld_min.setMinimum(0)
-        # self.verticalSlider_thld_min.setMaximum(1e6)
-        # self.verticalSlider_thld_max.setMinimum(0)
-        # self.verticalSlider_thld_max.setMaximum(1e6)
-        # self.verticalSlider_thld_min.setValue(0)
-        # self.verticalSlider_thld_max.setValue(1e6)
-        # self.lcdNumber_thld_max.display(0)
-        # self.lcdNumber_thld_min.display(1e6)
-
         # UI related stuff
         self.connect_signals()
 
@@ -108,6 +99,12 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         self.comboBox_color.currentIndexChanged.connect(
             self.on_comboBox_color_currentIndexChanged)
+
+        self.verticalSlider_thld_min.valueChanged.connect(
+            self.on_verticalSlider_thld_min_valueChanged)
+
+        self.verticalSlider_thld_max.valueChanged.connect(
+            self.on_verticalSlider_thld_max_valueChanged)
 
     def check_combo_boxes(self):
         if self.comboBox_color.currentText() == 'Viridis':
@@ -434,3 +431,13 @@ class mainWindow(QMainWindow, Ui_MainWindow):
                     self.verticalSlider_sframes.tickPosition() + 10)
         else:
             event.ignore()
+
+    def on_verticalSlider_thld_min_valueChanged(self):
+        if self.verticalSlider_thld_min.value() >= self.verticalSlider_thld_max.value():
+            self.verticalSlider_thld_min.setValue(
+                self.verticalSlider_thld_max.value() - 10)
+
+    def on_verticalSlider_thld_max_valueChanged(self):
+        if self.verticalSlider_thld_max.value() <= self.verticalSlider_thld_min.value():
+            self.verticalSlider_thld_max.setValue(
+                self.verticalSlider_thld_min.value() + 10)
