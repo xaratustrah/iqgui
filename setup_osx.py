@@ -15,13 +15,14 @@ https://github.com/sparsile/padulator/blob/f1a361b3ee6952c2720c41a91ffa688915977
 from version import __version__
 from setuptools import setup
 from subprocess import call
-import shutil, os
+import shutil
+import os
 
 NAME = 'iqgui'
 
 app = ['iqgui.py']
 
-packages = ['zmq', 'spectrum']
+packages = ['zmq', ]
 
 includes = ['sip',
             'PyQt5',
@@ -75,6 +76,7 @@ shutil.copyfile('dist/' + NAME + '.app/Contents/Frameworks/libqcocoa.dylib',
                 'dist/' + NAME + '.app/Contents/PlugIns/platforms/libqcocoa.dylib')
 
 print('Now creating the disk image...')
-command = 'hdiutil create {}_{}.dmg -volname {} -fs HFS+ -srcfolder dist/{}.app'.format(NAME, __version__, NAME, NAME)
+command = 'hdiutil create {}_{}.dmg -volname {} -fs HFS+ -srcfolder dist/{}.app'.format(
+    NAME, __version__, NAME, NAME)
 command = command.split()
 call(command)
