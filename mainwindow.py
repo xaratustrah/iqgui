@@ -61,6 +61,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.colormesh_zz_dbm = None
 
         # UI related stuff
+        self.verticalSlider_thld_min.setValue(0)
+        self.verticalSlider_thld_max.setValue(1e6)
         self.connect_signals()
 
     def showAboutDialog(self):
@@ -421,10 +423,12 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.plot()
 
     def on_pushButton_save_conf_clicked_once(self):
-        if not self.loaded_file_type:
-            return
+        if self.loaded_file_type:
+            suggest_file_name = self.iq_data.filename_wo_ext
+        else:
+            suggest_file_name = 'plot_config'
 
-        file_name, _ = QFileDialog.getSaveFileName(self, "Choose files...", self.iq_data.file_basename,
+        file_name, _ = QFileDialog.getSaveFileName(self, "Choose files...", suggest_file_name,
                                                    "Config Files (*.json)")
 
         if not file_name:

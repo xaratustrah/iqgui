@@ -12,7 +12,8 @@ from distutils.core import setup
 import py2exe
 import matplotlib
 from glob import glob
-import PyQt5, spectrum
+import PyQt5
+import spectrum
 from version import __version__
 
 NAME = 'iqgui'
@@ -34,7 +35,6 @@ includes = ['sip',
             'scipy.linalg.cython_lapack',
             'scipy.sparse.csgraph._validation',
             'pytdms',
-            'spectrum',
             ]
 
 excludes = ['pkg_resources',
@@ -54,19 +54,18 @@ options = {
     'excludes': excludes,
     'packages': packages
 }
-    
-qt_platform_plugins = [('platforms', glob(PyQt5.__path__[0] + r'\plugins\platforms\*.*'))]
-spectrum_plugin = [('', glob(spectrum.__path__[0] + r'\mydpss.pyd'))]
+
+qt_platform_plugins = [
+    ('platforms', glob(PyQt5.__path__[0] + r'\plugins\platforms\*.*'))]
 
 data_files = []
 data_files.extend(qt_platform_plugins)
 data_files.extend(matplotlib.get_py2exe_datafiles())
-data_files.extend(spectrum_plugin)
 
 setup(
     name=NAME,
     version=__version__,
-    url='https://github.com/xaratustrah/iq_suite',
+    url='https://github.com/xaratustrah/iqgui',
     license='GPLv.3',
     zipfile=None,
     data_files=data_files,
