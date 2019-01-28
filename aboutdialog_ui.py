@@ -2,8 +2,7 @@
 
 # Form implementation generated from reading ui file 'rsrc/aboutdialog.ui'
 #
-# Created: Tue Oct  6 12:28:37 2015
-#      by: PyQt5 UI code generator 5.4
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -52,7 +51,7 @@ class Ui_AbooutDialog(object):
         AbooutDialog.setWindowTitle(_translate("AbooutDialog", "Dialog"))
         self.labelTitle.setText(_translate("AbooutDialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:24pt; font-weight:600; text-decoration: underline;\">iqgui</span></p></body></html>"))
         self.labelVersion.setText(_translate("AbooutDialog", "TextLabel"))
-        self.labelDescription.setText(_translate("AbooutDialog", "<html><head/><body><p align=\"center\">A visualizer for IQ Data in frequency domain.</p><p align=\"center\">This program is a part of the <span style=\" font-weight:600;\">iq_suite</span> for visualization of IQ data.</p><p align=\"center\"><br/></p><p align=\"center\">Copyright (c) Shahab Sanjari 2015.</p><p align=\"center\">License: GPL V.2.</p><p align=\"center\"><br/></p></body></html>"))
+        self.labelDescription.setText(_translate("AbooutDialog", "<html><head/><body><p align=\"center\">A visualizer for IQ Data in frequency domain.</p><p align=\"center\">This program is a part of the <span style=\" font-weight:600;\">iq_suite</span> for visualization of IQ data.</p><p align=\"center\"><br/></p><p align=\"center\">Copyright (c) Shahab Sanjari 2015 - 2019.</p><p align=\"center\">License: GPL V.3.</p><p align=\"center\"><br/></p></body></html>"))
         self.pushButton_ok.setText(_translate("AbooutDialog", "OK"))
 
 import gui_rc

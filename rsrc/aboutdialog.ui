@@ -51,7 +51,7 @@
    <item>
     <widget class="QLabel" name="labelDescription">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;A visualizer for IQ Data in frequency domain.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;This program is a part of the &lt;span style=&quot; font-weight:600;&quot;&gt;iq_suite&lt;/span&gt; for visualization of IQ data.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Copyright (c) Shahab Sanjari 2015.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;License: GPL V.2.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;A visualizer for IQ Data in frequency domain.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;This program is a part of the &lt;span style=&quot; font-weight:600;&quot;&gt;iq_suite&lt;/span&gt; for visualization of IQ data.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Copyright (c) Shahab Sanjari 2015 - 2019.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;License: GPL V.3.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>

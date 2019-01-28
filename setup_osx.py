@@ -6,6 +6,7 @@ IQGUI
 
 AUG 2015 Xaratustrah
 MAR 2016 Xaratustrah
+JAN 2019 Xaratustrah
 
 libqcocoa.dylib problem solved using 'frameworks' adapted from:
 https://github.com/sparsile/padulator/blob/f1a361b3ee6952c2720c41a91ffa68891597760a/setup.py
