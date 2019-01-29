@@ -15,6 +15,7 @@ import json
 from mainwindow_ui import Ui_MainWindow
 from aboutdialog_ui import Ui_AbooutDialog
 from iqtools import *
+
 # force Matplotlib to use PyQt5 backend, call before importing pyplot and backends!
 from matplotlib import use
 
@@ -435,8 +436,22 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             self.show_message('User cancelled the dialog box.')
             return
 
-        data = {'lframes': self.spinBox_lframes.value(
-        ), 'nframes': self.spinBox_nframes.value(), 'sframes': self.spinBox_sframes.value(), 'thld_min': self.verticalSlider_thld_min.value(), 'thld_max': self.verticalSlider_thld_max.value()}
+        data = {
+            'lframes': self.spinBox_lframes.value(),
+            'nframes': self.spinBox_nframes.value(),
+            'sframes': self.spinBox_sframes.value(),
+            'thld_min': self.verticalSlider_thld_min.value(),
+            'thld_max': self.verticalSlider_thld_max.value(),
+            'method': self.comboBox_method.currentText(),
+            'color': self.comboBox_color.currentText(),
+            'window': self.comboBox_window.currentText(),
+            'log': self.checkBox_log.isChecked(),
+            'mask': self.checkBox_mask.isChecked(),
+            'info': self.checkBox_info.isChecked(),
+            'file_name': suggest_file_name,
+            'version': __version__,
+        }
+
         with open(file_name, 'w') as outfile:
             json.dump(data, outfile)
 
@@ -456,6 +471,13 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             self.spinBox_sframes.setValue(data['sframes'])
             self.verticalSlider_thld_min.setValue(data['thld_min'])
             self.verticalSlider_thld_max.setValue(data['thld_max'])
+            self.comboBox_method.setCurrentText(data['method'])
+            self.comboBox_color.setCurrentText(data['color'])
+            self.comboBox_window.setCurrentText(data['window'])
+            self.checkBox_log.setChecked(data['log'])
+            self.checkBox_mask.setChecked(data['mask'])
+            self.checkBox_info.setChecked(data['info'])
+
         except KeyError as error:
             self.show_message('The config file seems to be damaged.')
             return
