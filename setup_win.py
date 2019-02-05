@@ -14,7 +14,6 @@ import py2exe
 import matplotlib
 from glob import glob
 import PyQt5
-import spectrum
 from version import __version__
 
 NAME = 'iqgui'

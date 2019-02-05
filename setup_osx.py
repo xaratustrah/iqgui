@@ -18,6 +18,8 @@ from setuptools import setup
 from subprocess import call
 import shutil
 import os
+import sys
+sys.setrecursionlimit(5000)
 
 NAME = 'iqgui'
 
