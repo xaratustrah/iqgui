@@ -12,6 +12,9 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from mainwindow import mainWindow
 
+sys.setrecursionlimit(5000)
+
+
 def main():
     """
     Start the application

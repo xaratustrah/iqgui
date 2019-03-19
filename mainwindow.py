@@ -370,10 +370,12 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.spinBox_nframes.setValue(200)
         self.spinBox_lframes.setValue(1024)
         self.spinBox_sframes.setValue(1)
+
         # finally do an initial limit checking
-        self.on_spinBox_lframe_changed()
-        self.on_spinBox_nframe_changed()
-        self.on_spinBox_sframe_changed()
+        # todo: not sure if I need these following lines, they cause crash for very short IQT files
+        # self.on_spinBox_lframe_changed()
+        # self.on_spinBox_nframe_changed()
+        # self.on_spinBox_sframe_changed()
 
     def on_spinBox_lframe_changed(self):
         if not self.loaded_file_type:
