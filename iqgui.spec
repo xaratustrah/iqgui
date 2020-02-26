@@ -4,10 +4,10 @@ block_cipher = None
 
 import sys
 sys.setrecursionlimit(5000)
-from version import __version__
+#from version import __version__
 
 a = Analysis(['iqgui.py'],
-             pathex=['F:\\git\\iqgui'],
+             pathex=['D:\\git\\iqgui'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -19,18 +19,24 @@ a = Analysis(['iqgui.py'],
              cipher=block_cipher,
              noarchive=False)
 pyz = PYZ(a.pure, a.zipped_data,
-          cipher=block_cipher)
+             cipher=block_cipher)
 exe = EXE(pyz,
           a.scripts,
-          a.binaries,
-          a.zipfiles,
-          a.datas,
           [],
-          name='iqgui_{}'.format(__version__),
+          exclude_binaries=True,
+		  name='iqgui_{}'.format("2.3.4"),
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          runtime_tmpdir=None,
           console=True,
-          icon='rsrc/icon.ico',)
+		  icon='rsrc/icon.ico',
+		   )
+coll = COLLECT(exe,
+               a.binaries,
+               a.zipfiles,
+               a.datas,
+               strip=False,
+               upx=True,
+               name='iqgui_{}'.format("2.3.4"),
+)
