@@ -5,6 +5,7 @@ block_cipher = None
 import sys
 sys.setrecursionlimit(5000)
 #from version import __version__
+__version__ = "2.3.5"
 
 a = Analysis(['iqgui.py'],
              pathex=['D:\\git\\iqgui'],
@@ -24,7 +25,7 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-		  name='iqgui_{}'.format("2.3.4"),
+		  name='iqgui_{}'.format(__version__),
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -38,5 +39,5 @@ coll = COLLECT(exe,
                a.datas,
                strip=False,
                upx=True,
-               name='iqgui_{}'.format("2.3.4"),
+               name='iqgui_{}'.format(__version__),
 )
