@@ -7,6 +7,11 @@ AUG 2015 Xaratustrah
 
 """
 
+from version import __version__
+from matplotlib.colors import Normalize
+from matplotlib.pyplot import colorbar
+from matplotlib.ticker import FormatStrFormatter
+import matplotlib.cm as cm
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QDialog
 from PyQt5.QtGui import QKeyEvent
 from PyQt5.QtCore import Qt, QCoreApplication
@@ -20,11 +25,6 @@ from iqtools import *
 from matplotlib import use
 
 use("Qt5Agg")
-import matplotlib.cm as cm
-from matplotlib.ticker import FormatStrFormatter
-from matplotlib.pyplot import colorbar
-from matplotlib.colors import Normalize
-from version import __version__
 
 
 class mainWindow(QMainWindow, Ui_MainWindow):
@@ -61,6 +61,11 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.colormesh_zz = None
         self.colormesh_zz_dbm = None
 
+        # plot data for writing to TXT Files
+
+        self.plot_data_ff = np.array([])
+        self.plot_data_pp = np.array([])
+
         # UI related stuff
         self.verticalSlider_thld_min.setValue(0)
         self.verticalSlider_thld_max.setValue(1e6)
@@ -94,6 +99,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         # automatically connected by pyuic: https://stackoverflow.com/a/22875443
         self.pushButton_save_conf.clicked.connect(
             self.on_pushButton_save_conf_clicked_once)
+        self.pushButton_save_csv.clicked.connect(
+            self.on_pushButton_save_csv)
 
         self.actionChoose_file.triggered.connect(self.open_file_dialog)
         self.actionReplot.triggered.connect(self.on_pushButton_replot_clicked)
@@ -235,6 +242,10 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             if self.checkBox_info.isChecked():
                 self.mplWidget.canvas.ax.set_title(
                     'Spectrogram (File: {})'.format(self.iq_data.file_basename))
+            # update plot variables for TXT export
+
+            self.plot_data_ff = np.array([])
+            self.plot_data_pp = np.array([])
 
         elif self.method == 'welch-1D':
             ff, pp = self.iq_data.get_pwelch()
@@ -261,6 +272,11 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
             self.mplWidget.canvas.ax.grid(True)
 
+            # update plot variables for TXT export
+
+            self.plot_data_ff = ff
+            self.plot_data_pp = pp
+
         else:  # this means self.method == 'fft-1D'
             ff, pp, _ = self.iq_data.get_fft()
             delta_f = ff[1] - ff[0]
@@ -282,7 +298,12 @@ class mainWindow(QMainWindow, Ui_MainWindow):
                     "Power Spectral Density [W/Hz]")
             self.mplWidget.canvas.ax.grid(True)
 
-        # finish up plot
+            # update plot variables for TXT export
+
+            self.plot_data_ff = ff
+            self.plot_data_pp = pp
+
+        # finish up plot 1D or 2D
         self.mplWidget.canvas.ax.text(0.5, 0.995, info_txt,
                                       horizontalalignment='center',
                                       verticalalignment='top',
@@ -300,6 +321,10 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.canvas = FigureCanvas(fig)
         self.mplvl.addWidget(self.canvas)
         self.canvas.draw()
+
+    def write_plot_data_to_file(self, filename):
+        np.savetxt(filename, np.reshape(np.append(self.plot_data_ff, self.plot_data_pp), (2, -1)
+                                        ).T, header='Delta f [Hz] @ {:.2e} [Hz]|Power [W]'.format(self.iq_data.center), delimiter='|')
 
     def show_message(self, message):
         """
@@ -456,6 +481,21 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         with open(file_name, 'w') as outfile:
             json.dump(data, outfile)
+
+    def on_pushButton_save_csv(self):
+        if self.loaded_file_type:
+            suggest_file_name = self.iq_data.filename_wo_ext
+        else:
+            self.show_message('Please choose a valid file first.')
+            return
+
+        file_name, _ = QFileDialog.getSaveFileName(self, "Choose files...", suggest_file_name,
+                                                   "Config Files (*.csv)")
+
+        if not file_name:
+            self.show_message('User cancelled the dialog box.')
+            return
+        self.write_plot_data_to_file(file_name)
 
     def on_pushButton_load_conf_clicked_once(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Choose files...", '',
