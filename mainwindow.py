@@ -50,7 +50,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         # fill combo box with names
         self.comboBox_method.addItems(
-            ['fft-2D', 'welch-2D', 'mtm-2D', 'fft-1D', 'welch-1D'])
+            ['fft-2D', 'welch-2D', 'mtm-2D', 'fft-1D', 'fft-1D-avg', 'welch-1D'])
         self.comboBox_window.addItems(
             ['rectangular', 'bartlett', 'blackman', 'hamming', 'hanning'])
         self.comboBox_color.addItems(
@@ -152,8 +152,10 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             self.iq_data.method = 'mtm'
         elif self.comboBox_method.currentText() == 'welch-1D':
             self.method = 'welch-1D'
+        elif self.comboBox_method.currentText() == 'fft-1D-avg':
+            self.method = 'fft-1D-avg'
         else:
-            self.method = 'fft_1D'
+            self.method = 'fft-1D'
 
         self.iq_data.window = self.comboBox_window.currentText()
 
@@ -277,8 +279,12 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
             self.mplWidget.canvas.ax.grid(True)
 
-        else:  # this means self.method == 'fft-1D'
-            ff, pp, _ = self.iq_data.get_fft()
+        else:  # this means self.method == 'fft-1D' or 'fft-1D-avg'
+            if self.method == 'fft-1D-avg':
+                ff, pp, _ = self.iq_data.get_fft(
+                    nframes=self.iq_data.nframes, lframes=self.iq_data.lframes)
+            else:
+                ff, pp, _ = self.iq_data.get_fft()
             # update plot variables for TXT export
 
             self.plot_data_ff = ff
