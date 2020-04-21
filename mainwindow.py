@@ -249,6 +249,11 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         elif self.method == 'welch-1D':
             ff, pp = self.iq_data.get_pwelch()
+            # update plot variables for TXT export
+
+            self.plot_data_ff = ff
+            self.plot_data_pp = pp
+
             delta_f = ff[1] - ff[0]
 
             self.mplWidget.canvas.ax.clear()
@@ -271,14 +276,14 @@ class mainWindow(QMainWindow, Ui_MainWindow):
                     "Power Spectral Density [W/Hz]")
 
             self.mplWidget.canvas.ax.grid(True)
-
-            # update plot variables for TXT export
-
-            self.plot_data_ff = ff
-            self.plot_data_pp = pp
 
         else:  # this means self.method == 'fft-1D'
             ff, pp, _ = self.iq_data.get_fft()
+            # update plot variables for TXT export
+
+            self.plot_data_ff = ff
+            self.plot_data_pp = pp
+
             delta_f = ff[1] - ff[0]
             self.mplWidget.canvas.ax.clear()
             # log version
@@ -297,11 +302,6 @@ class mainWindow(QMainWindow, Ui_MainWindow):
                 self.mplWidget.canvas.ax.set_ylabel(
                     "Power Spectral Density [W/Hz]")
             self.mplWidget.canvas.ax.grid(True)
-
-            # update plot variables for TXT export
-
-            self.plot_data_ff = ff
-            self.plot_data_pp = pp
 
         # finish up plot 1D or 2D
         self.mplWidget.canvas.ax.text(0.5, 0.995, info_txt,
@@ -323,8 +323,11 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.canvas.draw()
 
     def write_plot_data_to_file(self, filename):
-        np.savetxt(filename, np.reshape(np.append(self.plot_data_ff, self.plot_data_pp), (2, -1)
-                                        ).T, header='Delta f [Hz] @ {:.2e} [Hz]|Power [W]'.format(self.iq_data.center), delimiter='|')
+        a = np.concatenate(
+            (self.plot_data_ff, self.plot_data_pp, IQBase.get_dbm(self.plot_data_pp)))
+        b = np.reshape(a, (3, -1)).T
+        np.savetxt(filename, b, header='Delta f [Hz] @ {:.2e} [Hz]|Power [W]|Power [dBm]'.format(
+            self.iq_data.center), delimiter='|')
 
     def show_message(self, message):
         """
