@@ -329,11 +329,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.canvas.draw()
 
     def write_plot_data_to_file(self, filename):
-        a = np.concatenate(
-            (self.plot_data_ff, self.plot_data_pp, IQBase.get_dbm(self.plot_data_pp)))
-        b = np.reshape(a, (3, -1)).T
-        np.savetxt(filename, b, header='Delta f [Hz] @ {:.2e} [Hz]|Power [W]|Power [dBm]'.format(
-            self.iq_data.center), delimiter='|')
+        write_spectrum_to_csv(
+            self.plot_data_ff, self.plot_data_pp, filename, center=self.iq_data.center)
 
     def show_message(self, message):
         """
@@ -499,7 +496,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             return
 
         file_name, _ = QFileDialog.getSaveFileName(self, "Choose files...", suggest_file_name,
-                                                   "Config Files (*.csv)")
+                                                   "CSV Files (*.csv)")
 
         if not file_name:
             self.show_message('User cancelled the dialog box.')
