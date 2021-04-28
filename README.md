@@ -9,27 +9,18 @@ A qt-based GUI program that offers a graphical interface to visually inspect the
 
 ## Installation and usage
 
-More general info on python installation under Win and OSX can be found on this [gist](https://gist.github.com/xaratustrah/4efc5001f1bbcce47e02e2343ba29b87). Just remember to install missing packages, like `pyTDMS`.
+#### Windows binaries
 
-#### Windows Binary
+You can just use the program by using the binaries. In the release section of this repository there are binaries available for Windows. These have been tested also for Win-10.
 
-In the release section I put some compiled versions for windows.
+#### Just running it
 
-#### Building OSX App
+Alternatively you can just run the program as a python script. This code depends on the [iqtools library](https://github.com/xaratustrah/iqtools) library, so you need to [follow the installation instructions there](https://github.com/xaratustrah/iqtools#install--uninstall) first.
 
-After making sure the run time version stars without any problems, you may like to build an app. You need to use `py2app`:
+After installing the dependencies you can just run the program with:
 
-    python setup_osx.py py2app
+    python ./iqgui.py
 
-Still I encountered a couple of errors which I describe here. I needed to modify this file:
-
-    /opt/local/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/site-packages/py2app/recipes/pyopengl.py
-
-open it and change `file` to `open`. The after consulting [this post](http://stackoverflow.com/a/32750895/5177935) this file needed to be changed:
-
-    /opt/local/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/site-packages/macholib/dyld.py
-
-where each instance of `loader_path` was changed to `loader`.
 
 
 ## Acknowledgements
