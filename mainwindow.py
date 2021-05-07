@@ -228,7 +228,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             # find the correct object in the matplotlib widget and plot on it
             self.mplWidget.canvas.ax.clear()
             sp = self.mplWidget.canvas.ax.pcolormesh(self.colormesh_xx, self.colormesh_yy + starting_time, zzma,
-                                                     cmap=self.cmap, norm=mynorm)
+                                                     cmap=self.cmap, norm=mynorm, shading='auto')
             # color bar is not needed now.
             # cb = colorbar(sp)
             # cb.set_label('Power Spectral Density [W/Hz]')
