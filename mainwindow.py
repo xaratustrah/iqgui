@@ -171,10 +171,17 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             self.show_message('Please choose a valid file first.')
             return
 
-        # do the actual read
+        nframes = self.spinBox_nframes.value()
+        lframes = self.spinBox_lframes.value()
+        sframes = self.spinBox_sframes.value()
 
-        self.iq_data.read(self.spinBox_nframes.value(), self.spinBox_lframes.value(),
-                          self.spinBox_sframes.value())
+        # do the actual read
+        try:
+            self.iq_data.read(
+                nframes=nframes, lframes=lframes, sframes=sframes)
+        except ValueError as e:
+            self.show_message(str(e))
+            return
 
         self.check_combo_boxes()
 
@@ -182,18 +189,15 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.textBrowser.append(str(self.iq_data))
 
         if self.checkBox_info.isChecked():
-            info_txt = 'nframes = {}, lframes = {}, sframes = {}, method = {}'.format(self.iq_data.nframes,
-                                                                                      self.iq_data.lframes,
-                                                                                      self.iq_data.sframes,
-                                                                                      self.method)
+            info_txt = 'nframes = {}, lframes = {}, sframes = {}, method = {}'.format(
+                nframes, lframes, sframes, self.method)
         else:
             info_txt = ""
 
         if self.method in ['mtm-2D', 'welch-2D', 'fft-2D']:
             # if you only like to change the color, don't calculate the spectrum again, just replot
             self.colormesh_xx, self.colormesh_yy, self.colormesh_zz = self.iq_data.get_spectrogram(
-                self.iq_data.nframes,
-                self.iq_data.lframes)
+                nframes, lframes)
 
             delta_f = np.abs(
                 np.abs(self.colormesh_xx[0, 1]) - np.abs(self.colormesh_xx[0, 0]))
@@ -282,7 +286,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         else:  # this means self.method == 'fft-1D' or 'fft-1D-avg'
             if self.method == 'fft-1D-avg':
                 ff, pp, _ = self.iq_data.get_fft(
-                    nframes=self.iq_data.nframes, lframes=self.iq_data.lframes)
+                    nframes=nframes, lframes=lframes)
             else:
                 ff, pp, _ = self.iq_data.get_fft()
             # update plot variables for TXT export
