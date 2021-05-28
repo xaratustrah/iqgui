@@ -212,22 +212,20 @@ class mainWindow(QMainWindow, Ui_MainWindow):
             mynorm = Normalize(vmin=self.verticalSlider_thld_min.value(
             ), vmax=self.verticalSlider_thld_max.value())
 
-            # log version
-            if self.checkBox_log.isChecked():
-                zz = IQBase.get_dbm(zz)
-
             # mask arrays for transparency in pcolormesh
-            # check mask checkBox_log
             if self.checkBox_mask.isChecked():
                 zzma = np.ma.masked_less_equal(
                     zz, self.verticalSlider_thld_min.value())
             else:
                 zzma = zz
 
+            # log version
+            if self.checkBox_log.isChecked():
+                zzma = IQBase.get_dbm(zzma)
+
             # use starting time
             starting_time = self.spinBox_sframes.value() * self.spinBox_lframes.value() / \
                 self.iq_data.fs
-            # TODO
 
             # find the correct object in the matplotlib widget and plot on it
             self.mplWidget.canvas.ax.clear()
