@@ -196,7 +196,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         if self.method in ['mtm-2D', 'welch-2D', 'fft-2D']:
             # if you only like to change the color, don't calculate the spectrum again, just replot
-            self.colormesh_xx, self.colormesh_yy, self.colormesh_zz = self.iq_data.get_spectrogram(
+            self.colormesh_xx, self.colormesh_yy, self.colormesh_zz = self.iq_data.get_power_spectrogram(
                 nframes, lframes)
 
             delta_f = np.abs(
