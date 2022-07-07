@@ -68,7 +68,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         # UI related stuff
         self.verticalSlider_thld_min.setValue(0)
-        self.verticalSlider_thld_max.setValue(1e6)
+        self.verticalSlider_thld_max.setValue(1000000)
         self.connect_signals()
 
     def showAboutDialog(self):
