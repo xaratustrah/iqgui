@@ -1,10 +1,10 @@
 iqgui
 ============
-<img src="https://raw.githubusercontent.com/xaratustrah/iqgui/master/rsrc/icon.png" width="128">
+<img src="https://raw.githubusercontent.com/xaratustrah/iqgui/master/iqgui/rsrc/icon.png" width="128">
 
 A qt-based GUI program that offers a graphical interface to visually inspect the data processed by the [iqtools library](https://github.com/xaratustrah/iqtools). Please refer to that library for more information and background on how the library works. This GUI tool also offers contrast manipulation and save/restore of plot configuration files. So if you create a plot for a publication, you can recreate the same plot later directly from the raw data.
 
-![iq_suite](https://raw.githubusercontent.com/xaratustrah/iqgui/master/rsrc/screenshot.png)
+![iq_suite](https://raw.githubusercontent.com/xaratustrah/iqgui/master/iqgui/rsrc/screenshot.png)
 
 
 ## Installation and usage
