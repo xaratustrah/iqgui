@@ -4,8 +4,8 @@ block_cipher = None
 
 import sys
 sys.setrecursionlimit(5000)
-#from version import __version__
-__version__ = "2.5.3"
+from iqgui.version import __version__
+#__version__ = "3.0.0"
 
 a = Analysis(['iqgui.py'],
              pathex=['D:\\git\\iqgui'],

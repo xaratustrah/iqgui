@@ -7,7 +7,6 @@ AUG 2015 Xaratustrah
 
 """
 
-from version import __version__
 from matplotlib.colors import Normalize
 from matplotlib.pyplot import colorbar
 from matplotlib.ticker import FormatStrFormatter
@@ -17,9 +16,12 @@ from PyQt5.QtGui import QKeyEvent
 from PyQt5.QtCore import Qt, QCoreApplication
 import numpy as np
 import json
-from mainwindow_ui import Ui_MainWindow
-from aboutdialog_ui import Ui_AbooutDialog
+
 from iqtools import *
+
+from .mainwindow_ui import Ui_MainWindow
+from .aboutdialog_ui import Ui_AbooutDialog
+from .version import __version__
 
 # force Matplotlib to use PyQt5 backend, call before importing pyplot and backends!
 from matplotlib import use

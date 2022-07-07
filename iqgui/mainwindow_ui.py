@@ -8,6 +8,9 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from .matplotlibwidget import MatplotLibWidget
+from . import gui_rc
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -280,5 +283,3 @@ class Ui_MainWindow(object):
         self.actionAbout.setText(_translate("MainWindow", "About"))
         self.actionQuit.setText(_translate("MainWindow", "Quit"))
 
-from matplotlibwidget import MatplotLibWidget
-import gui_rc

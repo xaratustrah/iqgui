@@ -9,10 +9,6 @@ A qt-based GUI program that offers a graphical interface to visually inspect the
 
 ## Installation and usage
 
-#### Windows binaries
-
-You can just use the program by using the binaries. In the release section of this repository there are binaries available for Windows. These have been tested also for Win-10.
-
 #### Just running it
 
 Alternatively you can just run the program as a python script. This code depends on the [iqtools library](https://github.com/xaratustrah/iqtools) library, so you need to [follow the installation instructions there](https://github.com/xaratustrah/iqtools#install--uninstall) first.
@@ -21,7 +17,23 @@ After installing the dependencies you can just run the program with:
 
     python ./iqgui.py
 
+#### Installing it
 
+alternatively you can install it using `pip`. Go to the directory and perform:
+
+    pip install .
+
+you can see the installed files by:
+
+    pip show -f iqgui
+
+you can uninstall it by:
+
+    pip uninstall iqgui
+
+#### Windows binaries
+
+You can just use the program by using the binaries. In the release section of this repository there are binaries available for Windows. These have been tested also for Win-10.
 
 ## Acknowledgements
 I am thankful to [@carlkl](https://github.com/carlkl) for his valuable help in making a stand alone binary under MS Windows and also for fruitful discussions and suggestions.

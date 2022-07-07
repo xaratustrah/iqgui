@@ -10,7 +10,7 @@ AUG 2015 Xaratustrah
 
 import sys
 from PyQt5.QtWidgets import QApplication
-from mainwindow import mainWindow
+from . mainwindow import mainWindow
 
 sys.setrecursionlimit(5000)
 
