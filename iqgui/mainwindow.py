@@ -366,7 +366,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         :return:
         """
         file_name, _ = QFileDialog.getOpenFileName(self, "Choose files...", '',
-                                                   "IQ Files (*.tiq *.iqt);;TDMS files(*.tdms);;TCAP files (*.dat);;Sound files (*.wav);;ASCII files (*.csv *.txt);;Raw binary files (*.bin)")
+                                                   "IQ Files (*.tiq *.iqt);;XDAT files (*.xdat);;R3F files (*.r3f);;TDMS files(*.tdms);;TCAP files (*.dat);;Sound files (*.wav);;ASCII files (*.csv *.txt);;Raw binary files (*.bin)")
 
         if not file_name:
             self.show_message('User cancelled the dialog box.')
@@ -374,10 +374,10 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         # special case of TCAP files which need an extra header file
         header_file_name = None
-        if file_name.lower().endswith('.dat'):
+        if file_name.lower().endswith('.dat') or file_name.lower().endswith('.xdat'):
             self.show_message('Please choose a header file for this datafile.')
             header_file_name, _ = QFileDialog.getOpenFileName(self, "Please choose a header file...", '',
-                                                              "TCAP Header file (*.txt)")
+                                                              "TCAP header file (*.txt);;XDAT header file (*.xhdr)")
             if not header_file_name:
                 self.show_message('User cancelled the dialog box.')
                 return
