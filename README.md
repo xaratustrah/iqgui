@@ -15,7 +15,7 @@ Alternatively you can just run the program as a python script. This code depends
 
 After installing the dependencies you can just run the program with:
 
-    python ./iqgui.py
+    python -m iqgui
 
 #### Installing it
 
@@ -23,13 +23,6 @@ alternatively you can install it using `pip`. Go to the directory and perform:
 
     pip install .
 
-you can see the installed files by:
-
-    pip show -f iqgui
-
-you can uninstall it by:
-
-    pip uninstall iqgui
 
 #### Windows binaries
 
