@@ -419,7 +419,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         ns = self.iq_data.nsamples_total
         st = self.spinBox_sframes.value()
 
-        self.spinBox_lframes.setMaximum(int(ns - st) / nf)
+        self.spinBox_lframes.setMaximum(int(ns - st / nf))
         self.spinBox_lframes.setMinimum(1)
 
     def on_spinBox_nframe_changed(self):

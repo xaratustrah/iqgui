@@ -9,24 +9,32 @@ A qt-based GUI program that offers a graphical interface to visually inspect the
 
 ## Installation and usage
 
-#### Just running it
+#### Requirements
 
-Alternatively you can just run the program as a python script. This code depends on the [iqtools library](https://github.com/xaratustrah/iqtools) library, so you need to [follow the installation instructions there](https://github.com/xaratustrah/iqtools#install--uninstall) first.
+This library requires the installation of [iqtools library](https://github.com/xaratustrah/iqtools). Please follow the instruction there. Other than that, you still need PyQT which you can install like this:
 
-After installing the dependencies you can just run the program with:
+    conda install --channel=conda-forge pyqt
+
+#### Installation
+
+You can install the package using `pip` if you like:
+
+    cd iqgui
+    pip install .
+
+Alternatively you can just run the program as a python module:
 
     python -m iqgui
-
-#### Installing it
-
-alternatively you can install it using `pip`. Go to the directory and perform:
-
-    pip install .
 
 
 #### Windows binaries
 
 You can just use the program by using the binaries. In the release section of this repository there are binaries available for Windows. These have been tested also for Win-10.
+
+## Citation for publications
+
+If you are using this code in your publications, please refer to [DOI:10.5281/zenodo.7615693](https://doi.org/10.5281/zenodo.7615693) for citation
+
 
 ## Acknowledgements
 I am thankful to [@carlkl](https://github.com/carlkl) for his valuable help in making a stand alone binary under MS Windows and also for fruitful discussions and suggestions.
