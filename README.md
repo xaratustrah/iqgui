@@ -11,7 +11,7 @@ A qt-based GUI program that offers a graphical interface to visually inspect the
 
 #### Requirements
 
-This library requires the installation of [iqtools library](https://github.com/xaratustrah/iqtools). Please follow the instruction there. Other than that, you still need PyQT which you can install like this:
+This library requires the installation of [iqtools library](https://github.com/xaratustrah/iqtools). Please follow the instruction there. Other than that, you still need PyQT. PyQT is not a pure Python library, it needs binary files as well, so it is easiest if you set up a `conda`environment. Then you can install it like this:
 
     conda install --channel=conda-forge pyqt
 
