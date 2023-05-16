@@ -11,9 +11,16 @@ A qt-based GUI program that offers a graphical interface to visually inspect the
 
 #### Requirements
 
-This library requires the installation of [iqtools library](https://github.com/xaratustrah/iqtools). Please follow the instruction there. Other than that, you still need PyQT. PyQT is not a pure Python library, it needs binary files as well, so it is easiest if you set up a `conda`environment. Then you can install it like this:
+This library requires the installation of [iqtools library](https://github.com/xaratustrah/iqtools). Please follow the instruction there. Other than that, you still need PyQT. PyQT is not a pure Python library, and can be installed in different ways:
 
-    conda install --channel=conda-forge pyqt
+* System wide installation (not recommended)
+* Most recommended is to use `mamba`. For that just install [mamba](https://mamba.readthedocs.io/en/latest/installation.html). Before installing, it is recommended to create a new mamba env and do your work there:
+
+```
+mamba create -n my_env
+mamba activate my_env
+mamba install pyqt
+```
 
 #### Installation
 
